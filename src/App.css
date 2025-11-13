@@ -1,4 +1,4 @@
-/* ========== RESET & BASE STYLES ========== */
+/* Base styles */
 * {
   margin: 0;
   padding: 0;
@@ -17,7 +17,7 @@ body {
   padding: 20px;
 }
 
-/* ========== HEADER ========== */
+/* Header */
 .header {
   background: white;
   padding: 30px;
@@ -38,7 +38,7 @@ body {
   font-size: 1.1rem;
 }
 
-/* ========== MESSAGE BOX ========== */
+/* Message box */
 .message {
   background: #4caf50;
   color: white;
@@ -77,7 +77,7 @@ body {
   }
 }
 
-/* ========== NAVIGATION TABS ========== */
+/* Navigation tabs */
 .tabs {
   display: flex;
   gap: 10px;
@@ -113,7 +113,7 @@ body {
   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
-/* ========== CONTENT AREA ========== */
+/*Content*/
 .content {
   background: white;
   padding: 30px;
@@ -128,7 +128,7 @@ body {
   font-size: 1.8rem;
 }
 
-/* ========== FORMS ========== */
+/* Forms */
 form {
   display: flex;
   gap: 15px;
@@ -172,14 +172,14 @@ form button:hover {
   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
-/* ========== GRID LAYOUT ========== */
+/*Grid layout*/
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
 }
 
-/* ========== CARDS ========== */
+/*Cards*/
 .card {
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   padding: 20px;
@@ -225,7 +225,7 @@ form button:hover {
   border-top: 1px solid #ddd;
 }
 
-/* ========== STATUS BADGES ========== */
+/* Status */
 .status {
   display: inline-block;
   padding: 5px 15px;
@@ -257,7 +257,7 @@ form button:hover {
   color: #0c5460;
 }
 
-/* ========== DELETE BUTTON ========== */
+/* Delete */
 .delete-btn {
   margin-top: 15px;
   padding: 8px 20px;
@@ -277,7 +277,7 @@ form button:hover {
   transform: scale(1.05);
 }
 
-/* ========== RESPONSIVE DESIGN ========== */
+
 @media (max-width: 768px) {
   .header h1 {
     font-size: 1.8rem;
@@ -306,7 +306,7 @@ form button:hover {
   }
 }
 
-/* ========== EMPTY STATE ========== */
+/* Empty state */
 .grid:empty::after {
   content: 'No data available. Create your first entry above!';
   display: block;
@@ -319,7 +319,7 @@ form button:hover {
   border: 2px dashed #ddd;
 }
 
-/* ========== SCROLLBAR STYLING ========== */
+/* Scroll bar */
 ::-webkit-scrollbar {
   width: 10px;
 }

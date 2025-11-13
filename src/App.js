@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  // ========== STATE MANAGEMENT ==========
+  
   // Current active tab
   const [activeTab, setActiveTab] = useState('customers');
   
-  // Data arrays
+
   const [customers, setCustomers] = useState([]);
   const [policies, setPolicies] = useState([]);
   const [claims, setClaims] = useState([]);
@@ -40,10 +40,10 @@ function App() {
   // Message for success/error feedback
   const [message, setMessage] = useState('');
   
-  // API base URL
+  // Api
   const API_BASE = 'http://localhost:8080/api';
 
-  // ========== LOAD DATA WHEN TAB CHANGES ==========
+  // Load data when tab changes
   useEffect(() => {
     if (activeTab === 'customers') fetchCustomers();
     if (activeTab === 'policies') fetchPolicies();
@@ -51,7 +51,7 @@ function App() {
     if (activeTab === 'payments') fetchPayments();
   }, [activeTab]);
 
-  // ========== FETCH FUNCTIONS (GET REQUESTS) ==========
+  //Get requests
   
   const fetchCustomers = async () => {
     try {
@@ -97,7 +97,7 @@ function App() {
     }
   };
 
-  // ========== CREATE FUNCTIONS (POST REQUESTS) ==========
+  // Create functions
   
   const createCustomer = async (e) => {
     e.preventDefault();
@@ -175,7 +175,7 @@ function App() {
     }
   };
 
-  // ========== DELETE FUNCTIONS ==========
+  // Delete
   
   const deleteCustomer = async (id) => {
     if (!window.confirm('Delete this customer?')) return;
@@ -209,7 +209,7 @@ function App() {
     }
   };
 
-  // ========== RENDER UI ==========
+// UI
   
   return (
     <div className="App">
@@ -257,7 +257,7 @@ function App() {
       {/* Main Content */}
       <div className="content">
         
-        {/* ========== CUSTOMERS TAB ========== */}
+        {/* Customers */}
         {activeTab === 'customers' && (
           <div>
             <h2>Create New Customer</h2>
@@ -303,7 +303,7 @@ function App() {
           </div>
         )}
 
-        {/* ========== POLICIES TAB ========== */}
+        {/* Policies */}
         {activeTab === 'policies' && (
           <div>
             <h2>Create New Policy</h2>
@@ -354,7 +354,7 @@ function App() {
           </div>
         )}
 
-        {/* ========== CLAIMS TAB ========== */}
+        {/* Claims */}
         {activeTab === 'claims' && (
           <div>
             <h2>Submit New Claim</h2>
@@ -400,7 +400,7 @@ function App() {
           </div>
         )}
 
-        {/* ========== PAYMENTS TAB ========== */}
+        {/* Payments */}
         {activeTab === 'payments' && (
           <div>
             <h2>Process New Payment</h2>
