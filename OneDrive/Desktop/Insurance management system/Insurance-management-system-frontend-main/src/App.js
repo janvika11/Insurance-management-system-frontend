@@ -41,7 +41,7 @@ function App() {
   const [message, setMessage] = useState('');
   
   // API base URL
-  const API_BASE = 'https://insurance-backened-1.onrender.com/api';
+  const API_BASE = process.env.REACT_APP_API_BASE || 'https://insurance-backened-1.onrender.com/api';
 
 
   // ========== LOAD DATA WHEN TAB CHANGES ==========
