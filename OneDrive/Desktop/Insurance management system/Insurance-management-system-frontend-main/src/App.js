@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  // ========== STATE MANAGEMENT ==========
+  
   // Current active tab
   const [activeTab, setActiveTab] = useState('customers');
   
@@ -52,16 +52,36 @@ function App() {
     if (activeTab === 'payments') fetchPayments();
   }, [activeTab]);
 
+  // ========== LOAD CUSTOMERS ON INITIAL MOUNT ==========
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
+
   // ========== FETCH FUNCTIONS (GET REQUESTS) ==========
   
   const fetchCustomers = async () => {
     try {
-      const response = await fetch(`${API_BASE}/customer`);
+      console.log('Fetching customers from:', `${API_BASE}/customer`);
+      const response = await fetch(`${API_BASE}/customer`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      console.log('Fetch response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
-      setCustomers(data);
+      console.log('Fetched customers:', data);
+      setCustomers(data || []);
     } catch (error) {
       console.error('Error fetching customers:', error);
-      setMessage('Error loading customers');
+      setMessage('Error loading customers: ' + error.message);
+      setCustomers([]);
     }
   };
 
@@ -103,19 +123,54 @@ function App() {
   const createCustomer = async (e) => {
     e.preventDefault();
     
+    // Show loading state
+    setMessage('Creating customer...');
+    
     try {
+      console.log('Sending request to:', `${API_BASE}/customer`);
+      console.log('Request body:', customerForm);
+      
       const response = await fetch(`${API_BASE}/customer`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify(customerForm)
       });
       
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+      
+      if (!response.ok) {
+        let errorText = '';
+        try {
+          errorText = await response.text();
+        } catch (e) {
+          errorText = `HTTP ${response.status}: ${response.statusText}`;
+        }
+        console.error('Error response:', errorText);
+        setMessage(`Error: ${errorText || 'Failed to create customer'}`);
+        return;
+      }
+      
       const result = await response.text();
-      setMessage(result);
+      console.log('Success response:', result);
+      setMessage(result || 'Customer created successfully!');
+      
+      // Clear form
       setCustomerForm({ name: '', email: '', dob: '' });
-      fetchCustomers();
+      
+      // Wait a moment then refresh the customers list
+      setTimeout(async () => {
+        await fetchCustomers();
+      }, 500);
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => setMessage(''), 3000);
     } catch (error) {
-      setMessage('Error creating customer');
+      console.error('Error creating customer:', error);
+      setMessage(`Error creating customer: ${error.message}. Check console for details.`);
     }
   };
 
@@ -289,17 +344,23 @@ function App() {
 
             <h2>All Customers ({customers.length})</h2>
             <div className="grid">
-              {customers.map(customer => (
-                <div key={customer.id} className="card">
-                  <h3>{customer.name}</h3>
-                  <p>📧 {customer.email}</p>
-                  <p>🎂 {customer.dob}</p>
-                  <p className="id">Customer ID: {customer.id}</p>
-                  <button onClick={() => deleteCustomer(customer.id)} className="delete-btn">
-                    Delete
-                  </button>
+              {customers && customers.length > 0 ? (
+                customers.map(customer => (
+                  <div key={customer.id} className="card">
+                    <h3>{customer.name}</h3>
+                    <p>📧 {customer.email}</p>
+                    <p>🎂 {customer.dob}</p>
+                    <p className="id">Customer ID: {customer.id}</p>
+                    <button onClick={() => deleteCustomer(customer.id)} className="delete-btn">
+                      Delete
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', color: '#999' }}>
+                  No customers found. Create your first customer above!
                 </div>
-              ))}
+              )}
             </div>
           </div>
         )}
